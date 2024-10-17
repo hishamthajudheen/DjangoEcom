@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<header class="bg-dark py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">Signup to the Goodness</h1>
+        </div>
+    </div>
+</header>
+
+<div class='container'>
+    <div class="row">
+
+        <div class="col-md-6 offset-md-3">
+            <br><br>
+
+            <form method="POST" action="{% url 'core:register' %}">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <br><br>
+                <button type="submit" class="btn btn-dark">Register</button>
+            </form>
+
+            <br><br>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}
