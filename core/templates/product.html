@@ -18,17 +18,34 @@
                 <strike>₹{{ product.price }}</strike>
                 <b>₹{{product.sale_price}}</b>
                 <br><br>
-                <button type="button" value="{{product.id}}" id="add-cart" class="btn btn-dark">Add to Cart</button>
+                
             {% else %}
                 <b>₹{{ product.price }}</b>
                 <br><br>
-                <button type="button" value="{{product.id}}" id="add-cart" class="btn btn-dark">Add to Cart</button>
-            {% endif %}    
+            {% endif %} 
 
+            <div class="row justify-content-right">
+              <div class="col-md-2">Quantity:</div>
+              <div class="col-md-2">
+                  <select class="form-select form-select-sm" id="qty-cart">
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                  </select>
+              </div>
+              <br><br>
+              
+            </div>
+
+            <button type="button" value="{{product.id}}" id="add-cart" class="btn btn-dark">Add to Cart</button>
+
+            
             </div>
           </div>
         </div>
-      </div>
+    </div>
 </div>
 
 <script>
@@ -37,9 +54,10 @@
       e.preventDefault();
       $.ajax({
           type: 'POST',
-          url: '{% url 'cart:cart_add' %}',
+          url: '{% url 'cart_add' %}',
           data: {
       product_id: $('#add-cart').val(),
+      product_qty: $('#qty-cart option:selected').text(),
       csrfmiddlewaretoken: '{{ csrf_token }}',
       action: 'post'
           },

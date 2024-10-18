@@ -15,7 +15,7 @@
         <div class="col-8">
             <br><br>
 
-            <form method="POST" action="{% url 'core:login' %}">
+            <form method="POST" action="{% url 'login' %}">
                 {% csrf_token %}
                 <div class="mb-3">                    
                     <input type="text" class="form-control" name="username" placeholder="Enter your Username">
@@ -27,7 +27,7 @@
                 <br>
                 Not registered yet?
                 <br>
-                <a href="{% url 'core:register' %}" class="btn btn-secondary" role="button">Register</a>
+                <a href="{% url 'register' %}" class="btn btn-secondary" role="button">Register</a>
             </form>
 
             <br><br>

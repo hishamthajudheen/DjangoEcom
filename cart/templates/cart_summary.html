@@ -10,7 +10,94 @@
                 </div>
             </div>
         </header>
-        <!-- Section-->
 
+       <div class="container">
+        {% if cart_products  %}
+            {% for product in cart_products %}
+            <div class="card mb-3">
+                <div class="row g-0">
+                <div class="col-md-4">
+                    <img src="{{ product.image.url }}" class="img-fluid rounded-start" alt="...">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                    <h5 class="card-title">{{ product.name }}</h5>
+                    <p class="card-text">{{  product.description }}</p>
+                    
+                    {% if product.on_sale %}
+                        <b>₹{{product.sale_price}}</b>
+                        <br><br>
+                    {% else %}
+                        <b>₹{{ product.price }}</b>
+                        <br><br>
+                    {% endif %} 
+                    
+
+                    <div class="col-md-2">
+                        <select class="form-select form-select-sm" id="select{{ product.id }}">
+                            {% for key, value in quantities.items %}
+                                {% if key == product.id|slugify %}
+                                    <option selected> {{ value }} </option>
+                                {% endif %}
+                            {% endfor %}    
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                    </div>                   
+
+                    <br>
+                    <button type="button" data-index=""{{ product.id  }} class="btn btn-dark update-cart">Update</button>
+
+                    <button type="button" value="{{product.id}}" id="add-cart" class="btn btn-danger">Remove from Cart</button>    
+                    </div>
+                </div>
+                </div>
+            </div>
+                <br>
+            {% endfor %}
+        </div>
+        {% else %}
+            <div class="container">
+                <b> There's nothing in your cart at the moment. </b>
+                <br>
+                <br>
+            </div>
+        {% endif %}
+
+
+
+
+    <script>
+        $(document).on('click', '.update-cart', function(e){
+            e.preventDefault();
+            // grab the product id
+            var productid = $(this).data('index');
+        
+            $.ajax({
+            type: 'POST',
+            url: '{% url 'cart_update' %}',
+            data: {
+              product_id: $(this).data('index'),
+              product_qty: $('#select' + productid + ' option:selected').text(),
+              csrfmiddlewaretoken: '{{ csrf_token }}',
+              action: 'post'
+            },
+            success: function(json){
+                //console.log(json)
+                //document.getElementById("cart_quantity").textContent = json.qty
+                location.reload();
+            },
+        
+            error: function(xhr, errmsg, err){
+        
+            }
+        
+        
+            });
+        })
+    </script>
 
 {% endblock %}
