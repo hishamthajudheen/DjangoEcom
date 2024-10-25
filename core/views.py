@@ -25,7 +25,7 @@ def category(request, foo):
         return render(request, 'category.html', context)
     except:
         messages.success(request, ("Invalid Category!"))
-        return redirect('core:home')
+        return redirect('home')
 
 def product(request, pk):
     product = Product.objects.get(id=pk)
@@ -43,10 +43,10 @@ def login_user(request):
         if user is not None:
             login(request, user)
             messages.success(request, (f"Logged In! Welcome back {username}!"))
-            return redirect('core:home')
+            return redirect('home')
         else:
             messages.success(request, ("Uh-Oh! There was an Error. Try Again!"))
-            return redirect('core:login')
+            return redirect('login')
         
     else:  
         return render(request, 'login.html', {})
@@ -55,7 +55,7 @@ def login_user(request):
 def logout_user(request):
     logout(request)
     messages.success(request, ("Logged Out! Thanks for stopping by."))
-    return redirect('core:home')
+    return redirect('home')
 
 def register_user(request):
     form = SignUpForm()
@@ -69,9 +69,9 @@ def register_user(request):
             user = authenticate(username=username, password=password)
             login(request, user)
             messages.success(request, (f"Signup Successful! Welcome {username}!"))
-            return redirect('core:home')
+            return redirect('home')
         else:
             messages.success(request, ("Something isn't right! Try registering Again!"))
-            return redirect('core:register') 
+            return redirect('register') 
     else:            
         return render(request, 'register.html', {'form':form})
